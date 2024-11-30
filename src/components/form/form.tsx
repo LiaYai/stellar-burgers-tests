@@ -18,7 +18,6 @@ import {
 } from '@ya.praktikum/react-developer-burger-ui-components';
 // Используйте для проверки формата введённого имени
 import { namePattern } from '../../utils/constants';
-import { set } from 'cypress/types/lodash';
 
 export const Form: FC<IFormProps> = ({ setMode, className }) => {
   const formRef = useRef<HTMLFormElement>(null);
@@ -82,71 +81,64 @@ export const Form: FC<IFormProps> = ({ setMode, className }) => {
         </p>
       </div>
       <fieldset className={styles.fieldset}>
-        <div className='input__container '>
-          <label className='input__placeholder text noselect text_type_main-default'>
-            Имя
-          </label>
-          <Input
-            className='text input__textfield text_type_main-default'
-            data-testid='name-input'
-            name='name'
-            onChange={handleNameChange}
-            error={nameError}
-            errorText={'Некорректный формат имени'}
-            required
-            type='text'
-            value={name}
-          />
-        </div>
-        <div className='input__container '>
-          <label className='input__placeholder text noselect text_type_main-default'>
-            E-mail
-          </label>
-          <EmailInput
-            className='text input__textfield text_type_main-default'
-            data-testid='email-input'
-            name='email'
-            onChange={handleEmailChange}
-            required
-            value={email}
-          />
-        </div>
-        <div className='input__container '>
-          <label className='input__placeholder text noselect text_type_main-default'>
-            Пароль
-          </label>
-          <PasswordInput
-            className='text input__textfield text_type_main-default'
-            data-testid='password-input'
-            disabled={false}
-            name='password'
-            onChange={handlePasswordChange}
-            required
-            value={password}
-          />
-          <div className='input__icon input__icon-action' onClick={() => {}} />
-        </div>
-        <div className='input__container '>
-          <label className='input__placeholder text noselect text_type_main-default'>
-            Повторите пароль
-          </label>
-          <PasswordInput
-            className='text input__textfield text_type_main-default'
-            data-testid='repeat-password-input'
-            disabled={false}
-            name='repeatPassword'
-            onChange={handleRepeatPasswordChange}
-            required
-            value={repeatPassword}
-          />
-          <div className='input__icon  input__icon-action' />
-          {repeatPasswordError && (
-            <p className={'input__error'}>Пароли не совпадают</p>
-          )}
-        </div>
+        <Input
+          className='text input__textfield text_type_main-default'
+          data-testid='name-input'
+          name='name'
+          placeholder={'Имя'}
+          onChange={handleNameChange}
+          error={nameError}
+          errorText={'Некорректный формат имени'}
+          required
+          type='text'
+          value={name}
+          extraClass={clsx(styles.input, { [styles.input_error]: nameError })}
+        />
+
+        <EmailInput
+          className='text input__textfield text_type_main-default'
+          data-testid='email-input'
+          name='email'
+          placeholder={'E-mail'}
+          onChange={handleEmailChange}
+          required
+          value={email}
+          extraClass={clsx(styles.input, { [styles.input_error]: false })}
+        />
+
+        <PasswordInput
+          className='text input__textfield text_type_main-default'
+          data-testid='password-input'
+          disabled={false}
+          name='password'
+          placeholder={'Пароль'}
+          onChange={handlePasswordChange}
+          required
+          value={password}
+          extraClass={clsx(styles.input, { [styles.input_error]: false })}
+        />
+
+        <PasswordInput
+          className='text input__textfield text_type_main-default'
+          data-testid='repeat-password-input'
+          disabled={false}
+          name='repeatPassword'
+          placeholder={'Повторите пароль'}
+          onChange={handleRepeatPasswordChange}
+          required
+          value={repeatPassword}
+          extraClass={clsx(styles.input, {
+            [styles.input_error]: repeatPasswordError
+          })}
+        />
+        {repeatPasswordError && (
+          <p className={'input__error'}>Пароли не совпадают</p>
+        )}
+
         <button
           className='button button_type_primary button_size_medium'
           type='submit'
+          disabled={!formRef.current?.checkValidity()}
         >
           Зарегистрироваться
         </button>

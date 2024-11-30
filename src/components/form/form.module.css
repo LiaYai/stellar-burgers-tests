@@ -3,7 +3,7 @@
   flex-direction: column;
   gap: 32px;
   align-items: center;
-
+  
   width: 100%;
   max-width: 648px;
 }
@@ -41,7 +41,7 @@
 }
 
 .input_error {
-  margin-bottom: 0;
+  margin-bottom:0px;
 }
 
 .signin_box {
